@@ -36,5 +36,5 @@ setup(
         "Programming Language :: Python :: 2",
         "Topic :: Software Development :: Testing",
     ],
-    packages = find_packages("rhinoplasty"),
+    packages = find_packages("."),
 )
