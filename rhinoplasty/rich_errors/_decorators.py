@@ -1,9 +1,14 @@
 """Decorators for applying rich exceptions."""
 
 #TODO helper decorators for all exceptions
+    # broken_test
+    # exclude_test
+    # irrelevant_test
+
 #TODO update docstrings
 #TODO read through all code and update it
 #TODO rename decorators to be clearer, and have some systematic nameing approach
+
 
 __all__ = [
     'broken',
@@ -20,23 +25,13 @@ import inspect
 
 
 @nottest
-def broken(arg):
-    """Decorator to mark that this test case or test suite currently does not pass.
-    
-    This allows the test to be skipped (or otherwise handled specially), and
-    avoids polluting the output with failures that don't need to be
-    investigated.
+def broken_test(arg):
+    """Decorator to mark that this test case or test suite is broken.
     
     This decorator may be used without arguments, or else it accepts a single
     string argument describing why the test fails. Examples:
     
-    @failing
-    def test_broken_code(): pass
-    
-    ...or...
-    
-    @failing("Widget is not yet frobnicated")
-    def test_broken_code(): pass
+    @see BrokenTestException for further information on usage.
     """
     #TODO see unittest.expectedFailure (note this is only for functions). Also, it's API is not currently supported by Nose.
     
@@ -60,15 +55,12 @@ def broken(arg):
 @nottest
 def broken_inherited_tests(reason, *functions):
     """Decorator to mark that some test cases inherited from a superclass
-    currently do not pass.
-    
-    This will allow the test cases to be specially handled by the @failing
-    decorator.
+    are broken.
     
     @param reason: Description of why the test is failing.
     @param functions: List of function names, provided as additional arguments
         to the decorator.
-    @see failing For more details on the effects of using this decorator.
+    @see BrokenTestException for further information on usage.
     """
     def decorate(TestClass):
         # Sanity checks
@@ -76,9 +68,9 @@ def broken_inherited_tests(reason, *functions):
             raise TypeError("@failing_virtual_tests must be applied to a class")
         
         if hasattr(TestClass, reason):
-            raise ValueError("Failure reason appears to be a method: '%s'" % reason)
+            raise ValueError("Failure reason appears to actually be a method: '%s'" % reason)
         
-        # Mark these tests as failing for this subclass only.
+        # Mark these tests for this subclass only.
         # The only way to do this is to overwrite the method on the subclass,
         # and mark the overwritten method as a failure.
         for funcname in functions:
@@ -91,7 +83,7 @@ def broken_inherited_tests(reason, *functions):
                 raise ValueError("Test method '%s' is not defined by any superclass of %s" % (funcname, TestClass))
             
             # Create a replacement function
-            @broken(reason)
+            @broken_test(reason)
             @wrap_test_fixture(original_function)
             def new_method(self):
                 bound_function = original_function.__get__(self, TestClass)
@@ -105,13 +97,13 @@ def broken_inherited_tests(reason, *functions):
 
 
 @nottest
-def irrelevant(condition, description):
+def irrelevant_test(condition, description):
     """Decorator to mark that this test fixture is irrelevant under certain
     conditions.
     
     This allows the test to be skipped (or otherwise handled specially).
     """
-    assert (isinstance(description, basestring)), "Description is not a string - check that the arguments are correct"
+    assert (isinstance(description, basestring)), "Description is not a string - check that the parameters are correct"
     
     if condition:
         # Skip the test fixture
@@ -133,6 +125,7 @@ def _get_skip_test_decorator(description, SkipExceptionClass):
     @param SkipExceptionClass: The exception class to raise.
     """
     #TODO move to helper module?
+    #TODO rename
     def decorate(fixture):
         if inspect.isclass(fixture):
             # Create a replacement class that raises an appropriate exception
