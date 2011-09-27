@@ -1,6 +1,7 @@
 """Packaging."""
 
 import os
+from setuptools import find_packages
 from setuptools import setup
 
 # Utility function to read the README file.
@@ -17,7 +18,7 @@ def read(fname):
 
 setup(
     name = "rhinoplasty",
-    version = "0.1.2",
+    version = "0.1.4",
     author = "Gary Donovan",
     author_email = "garyd@crucialfruit.com.au",
     url = "N/A", #FIXME get a URL
@@ -35,5 +36,5 @@ setup(
         "Programming Language :: Python :: 2",
         "Topic :: Software Development :: Testing",
     ],
-    packages = ["rhinoplasty"],
+    packages = find_packages("rhinoplasty"),
 )
