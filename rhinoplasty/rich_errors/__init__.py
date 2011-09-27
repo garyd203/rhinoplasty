@@ -9,3 +9,5 @@ This package includes:
 
 from _decorators import *
 from _errors import *
+
+#TODO tests (?)
