@@ -1,0 +1,1 @@
+Use restructured text for the standalone and in-python documentation
