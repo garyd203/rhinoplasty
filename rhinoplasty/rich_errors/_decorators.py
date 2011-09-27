@@ -1,12 +1,20 @@
 """Decorators for applying rich exceptions."""
 
-#TODO helper decorators for all other exceptions
+#TODO helper decorators for all exceptions
+#TODO update docstrings
+#TODO read through all code and update it
 
 __all__ = [
     'broken',
     'broken_inherited_tests',
     'irrelevant',
 ]
+
+
+from ._errors import BrokenTestException
+from ._errors import IrrelevantTestException
+from rhinoplasty.wrapper import wrap_test_fixture
+import inspect
 
 
 def broken(arg):
@@ -106,7 +114,6 @@ def irrelevant(condition, description):
     else:
         # Leave the decorated fixture unchanged.
         def decorate(fixture):
-            logger.debug("Fixture '%s' is relevant", fixture.__name__)
             return fixture
     
     return decorate
@@ -119,7 +126,7 @@ def _get_skip_test_decorator(description, SkipExceptionClass):
     @param description: Description for why the decorated object is skipped.
     @param SkipExceptionClass: The exception class to raise.
     """
-    #TODO move to helper module
+    #TODO move to helper module?
     def decorate(fixture):
         if inspect.isclass(fixture):
             # Create a replacement class that raises an appropriate exception
