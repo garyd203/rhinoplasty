@@ -26,7 +26,7 @@ import inspect
 
 @nottest
 def broken_test(arg):
-    """Decorator to mark that this test case or test suite is broken.
+    """Decorator to mark that this test function or test class is broken.
     
     This decorator may be used without arguments, or else it accepts a single
     string argument describing why the test fails. Examples:
@@ -44,7 +44,7 @@ def broken_test(arg):
         arg_is_fixture = False
     
     # Get the wrapper function for the test fixture
-    func = _get_skip_test_decorator(description, BrokenTestException)
+    func = _decorate_fixture(description, BrokenTestException)
     
     # Decorate the fixture
     if arg_is_fixture:
@@ -98,16 +98,18 @@ def broken_inherited_tests(reason, *functions):
 
 @nottest
 def irrelevant_test(condition, description):
-    """Decorator to mark that this test fixture is irrelevant under certain
-    conditions.
+    """Decorator to mark that this test function or test class is irrelevant
+    in some situations.
     
-    This allows the test to be skipped (or otherwise handled specially).
+    @param condition: Boolean condition describing whether the test is
+        irrelevant. 
+    @param description: Describes why the test is irrelevant.
     """
     assert (isinstance(description, basestring)), "Description is not a string - check that the parameters are correct"
     
     if condition:
         # Skip the test fixture
-        decorate = _get_skip_test_decorator(description, IrrelevantTestException)
+        decorate = _decorate_fixture(description, IrrelevantTestException)
     else:
         # Leave the decorated fixture unchanged.
         def decorate(fixture):
@@ -117,23 +119,21 @@ def irrelevant_test(condition, description):
 
 
 @nottest
-def _get_skip_test_decorator(description, SkipExceptionClass):
-    """Decorator helper to get a wrapper function for a test fixture, that will
-    skip the fixture.
+def _decorate_fixture(description, ExceptionClass):
+    """Get a decorator wrapper function for a test fixture, that will raise an
+    exception when the tests are run.
     
     @param description: Description for why the decorated object is skipped.
-    @param SkipExceptionClass: The exception class to raise.
+    @param ExceptionClass: The exception class to raise.
     """
-    #TODO move to helper module?
-    #TODO rename
     def decorate(fixture):
         if inspect.isclass(fixture):
             # Create a replacement class that raises an appropriate exception
             @wrap_test_fixture(fixture)
             class ClassWrapper(object):
-                def test_suite_has_been_skipped(self):
-                    raise SkipExceptionClass(description)
-                test_suite_has_been_skipped.__doc__ = fixture.__doc__
+                def test_suite_raises_exception(self):
+                    raise ExceptionClass(description)
+                test_suite_raises_exception.__doc__ = fixture.__doc__
             
             return ClassWrapper
                     
@@ -143,8 +143,8 @@ def _get_skip_test_decorator(description, SkipExceptionClass):
             #noinspection PyUnusedLocal
             @wrap_test_fixture(fixture)
             def function_wrapper(*args):
-                """Replaces the failing test and unconditionally skips the test."""
-                raise SkipExceptionClass(description)
+                """Replaces the failing test and unconditionally raises an exception."""
+                raise ExceptionClass(description)
             return function_wrapper
         else:
             raise ValueError("Decorated object is neither a class nor a function")
