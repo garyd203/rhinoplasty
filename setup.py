@@ -4,6 +4,8 @@ import os
 from setuptools import find_packages
 from setuptools import setup
 
+
+## Helper Functions ##
 def read(fname):
     """Import another file into the setup function.
     
@@ -12,6 +14,8 @@ def read(fname):
     """
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
+
+## Run Setup ##
 setup(
     name = "rhinoplasty",
     version = "0.1.4",
