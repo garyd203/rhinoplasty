@@ -35,6 +35,7 @@ def broken(arg):
     @failing("Widget is not yet frobnicated")
     def test_broken_code(): pass
     """
+    #TODO renaem to broken_test for clearer usage
     #TODO see unittest.expectedFailure (note this is only for functions). Also, it's API is not currently supported by Nose.
     
     # Allow for two different decoration options
