@@ -1,10 +1,10 @@
 """Additional exceptions for working with automated tests."""
 
-#TODO move exception docstrings to the helper functions? Or think about that some more...
-
-#TODO new skip method for when the functionality is not yet implemented (although the tests are written).
+#TODO new error for when the functionality is not yet implemented (although the tests are written).
     # -> just use NotImplementedError in the code, and handle that specifically
     # Add an alias (or decorator) here to make this clearer? SubjectUnderTestNotImplementedException
+
+#FIXME update docstring for SkipTest to label it as abstract and general ???
 
 
 __all__ = [
@@ -42,9 +42,11 @@ class BrokenTestException(unittest.SkipTest):
         incompatible changes to the product's external API (and these changes
         need to be carefully managed).
     
-    @see failing()
+    This differs from the standard unittest.expectedFailure decorator in that
+    it does not attempt to run the test. It is also more flexible
+    (expectedFailure can only be applied to functions as a decorator), and
+    there is support for it in Nose.
     """
-    #TODo update docstrings for broken and broken_inherited_tests
     pass
 
 
@@ -52,16 +54,15 @@ class ExcludeTestException(unittest.SkipTest):
     """Skip a test because the user specifically excluded it from the current
     test run.
     
-    This differs from the builtin SkipTest exception in that it is specifically
-    intended for exclusions specified at test-run-time, whereas SkipTest has a
-    very general meaning and implies nothing about the reason for skipping the
-    test.
+    This differs from the standard unittest.SkipTest exception in that it is
+    specifically intended for exclusions specified at test-run-time, whereas
+    SkipTest has a very general meaning and implies nothing about the reason
+    for skipping the test.
     
-    Note that there may be other ways to exclude unwanted test (eg. Nose
+    Note that there may be other ways to exclude unwanted tests (eg. Nose
     provides several ways to specify which functions should be considered as
     tests).
     """
-    #FIXME update docstring for SkipTest to label it as abstract and general
     pass
 
 

@@ -19,12 +19,10 @@ def broken_test(arg):
     """Decorator to mark that this test function or test class is broken.
     
     This decorator may be used without arguments, or else it accepts a single
-    string argument describing why the test fails. Examples:
+    string argument describing why the test fails.
     
     @see BrokenTestException for further information on usage.
     """
-    #TODO see unittest.expectedFailure (note this is only for functions). Also, it's API is not currently supported by Nose.
-    
     # Allow for two different decoration options
     arg_is_fixture = True
     description = "Test is known to fail"
