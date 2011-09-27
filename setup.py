@@ -16,10 +16,11 @@ def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 setup(
-    name = "Rhinoplasty",
-    version = "0.1.0",
+    name = "rhinoplasty",
+    version = "0.1.2",
     author = "Gary Donovan",
     author_email = "garyd@crucialfruit.com.au",
+    url = "N/A", #FIXME get a URL
     license = "LGPL",
     keywords = "Nose test unittest",
     description = ("Experimental extensions to Nose."),
