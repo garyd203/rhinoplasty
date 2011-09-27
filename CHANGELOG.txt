@@ -1,3 +1,9 @@
+Version 0.3.0
+=============
+* Rename some of the rich error class decorators:
+    * broken_test
+    * irrelevant_test
+
 Version 0.2.0
 =============
 * Include wrapper module with decorator helper functions.
