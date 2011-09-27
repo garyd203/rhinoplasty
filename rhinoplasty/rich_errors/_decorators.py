@@ -3,6 +3,7 @@
 #TODO helper decorators for all exceptions
 #TODO update docstrings
 #TODO read through all code and update it
+#TODO rename decorators to be clearer, and have some systematic nameing approach
 
 __all__ = [
     'broken',
@@ -13,10 +14,12 @@ __all__ = [
 
 from ._errors import BrokenTestException
 from ._errors import IrrelevantTestException
+from nose.tools import nottest
 from rhinoplasty.wrapper import wrap_test_fixture
 import inspect
 
 
+@nottest
 def broken(arg):
     """Decorator to mark that this test case or test suite currently does not pass.
     
@@ -35,7 +38,6 @@ def broken(arg):
     @failing("Widget is not yet frobnicated")
     def test_broken_code(): pass
     """
-    #TODO renaem to broken_test for clearer usage
     #TODO see unittest.expectedFailure (note this is only for functions). Also, it's API is not currently supported by Nose.
     
     # Allow for two different decoration options
@@ -55,6 +57,7 @@ def broken(arg):
     return func
 
 
+@nottest
 def broken_inherited_tests(reason, *functions):
     """Decorator to mark that some test cases inherited from a superclass
     currently do not pass.
@@ -101,6 +104,7 @@ def broken_inherited_tests(reason, *functions):
     return decorate
 
 
+@nottest
 def irrelevant(condition, description):
     """Decorator to mark that this test fixture is irrelevant under certain
     conditions.
@@ -120,6 +124,7 @@ def irrelevant(condition, description):
     return decorate
 
 
+@nottest
 def _get_skip_test_decorator(description, SkipExceptionClass):
     """Decorator helper to get a wrapper function for a test fixture, that will
     skip the fixture.
