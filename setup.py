@@ -37,4 +37,9 @@ setup(
         "Topic :: Software Development :: Testing",
     ],
     packages = find_packages("."),
+    entry_points = {
+        'nose.plugins': [
+            "rich-errors = rhinoplasty.rich_errors.plugin:RichErrorReportingPlugin",
+        ],
+    },
 )
