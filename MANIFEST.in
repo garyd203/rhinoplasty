@@ -2,3 +2,4 @@ include AUTHORS.txt
 include gpl.txt
 include LEGAL.txt
 include lgpl.txt
+include RELEASES.txt
