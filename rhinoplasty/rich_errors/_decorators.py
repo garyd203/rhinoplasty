@@ -94,6 +94,7 @@ def irrelevant_test(condition, description):
     @param condition: Boolean condition describing whether the test is
         irrelevant. 
     @param description: Describes why the test is irrelevant.
+    @see IrrelevantTestException for further information on usage.
     """
     assert (isinstance(description, basestring)), "Description is not a string - check that the parameters are correct"
     
