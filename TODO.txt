@@ -1,1 +1,11 @@
 Use restructured text for the standalone and in-python documentation
+
+Set us up on readthedocs. Include the readthedocs URL as the project homepage
+
+Upload to PyPI
+
+Put repository online
+
+specify dependency on nose (include version?)
+
+Sign the release with GPG
