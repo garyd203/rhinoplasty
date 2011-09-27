@@ -9,3 +9,5 @@ Put repository online
 specify dependency on nose (include version?)
 
 Sign the release with GPG
+
+Include licence text in the top-level package header.
