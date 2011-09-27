@@ -7,8 +7,8 @@ __all__ = [
 ]
 
 
-from ._errors import BrokenTestException
-from ._errors import IrrelevantTestException
+from _errors import BrokenTestException
+from _errors import IrrelevantTestException
 from nose.tools import nottest
 from rhinoplasty.wrapper import wrap_test_fixture
 import inspect
