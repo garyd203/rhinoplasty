@@ -1,19 +1,9 @@
 """Decorators for applying rich exceptions."""
 
-#TODO helper decorators for all exceptions
-    # broken_test
-    # exclude_test
-    # irrelevant_test
-
-#TODO update docstrings
-#TODO read through all code and update it
-#TODO rename decorators to be clearer, and have some systematic nameing approach
-
-
 __all__ = [
-    'broken',
     'broken_inherited_tests',
-    'irrelevant',
+    'broken_test',
+    'irrelevant_test',
 ]
 
 
