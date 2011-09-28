@@ -11,9 +11,11 @@ class RichErrorReportingPlugin(ErrorClassPlugin):
     name = "rich-errors"
     
     # Define error classes that we handle
+    #TODO don't display tracebacks for the errors that are marked as isFailure
+    #TODO Be able to customise the single letter labels
     broken = ErrorClass(BrokenTestException, label='BROKEN', isfailure=True)
-    excluded = ErrorClass(ExcludeTestException, label='XCLUDE', isfailure=False) #TODO better label; be able to customise the shortcut letter?
-    misconfigured = ErrorClass(InvalidTestConfigurationException, label='CONFIG_WRONG', isfailure=False) #TODO better label
+    excluded = ErrorClass(ExcludeTestException, label='XCLUDE', isfailure=False) #TODO better label
+    misconfigured = ErrorClass(InvalidTestConfigurationException, label='CONFIG_WRONG', isfailure=True) #TODO better label
     irrelevant = ErrorClass(IrrelevantTestException, label='IRRELEVANT', isfailure=False)
     
     # Use default implementation of options() and configure to enable this plugin
