@@ -77,6 +77,7 @@ class ExcludeTestException(RichSkipTestException):
     provides several ways to specify which functions should be considered as
     tests).
     """
+    #TODO this description and use case is still weak, and wishy washy
     pass
 
 
