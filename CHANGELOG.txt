@@ -1,3 +1,7 @@
+Version 0.4.7
+=============
+* Tweak decorator name for adding NotImplementedError.
+
 Version 0.4.6
 =============
 * Add handling for NotImplementedError.

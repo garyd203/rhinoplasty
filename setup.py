@@ -18,7 +18,7 @@ def read(fname):
 ## Run Setup ##
 setup(
     name = "rhinoplasty",
-    version = "0.4.6",
+    version = "0.4.7",
     author = "Gary Donovan",
     author_email = "garyd@crucialfruit.com.au",
     url = "N/A", #FIXME get a URL
