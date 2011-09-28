@@ -4,9 +4,6 @@
     # -> just use NotImplementedError in the code, and handle that specifically
     # Add an alias (or decorator) here to make this clearer? SubjectUnderTestNotImplementedException
 
-#FIXME update docstring for SkipTest to label it as abstract and general ???
-
-
 __all__ = [
     'BrokenTestException',
     'ExcludeTestException',
@@ -32,6 +29,7 @@ class RichSkipTestException(StandardError):
     implement some deep magic with __str__, we are reduced to maintaining a
     separate exception hierarchy.
     """
+    pass
 
 
 class BrokenTestException(RichSkipTestException):
