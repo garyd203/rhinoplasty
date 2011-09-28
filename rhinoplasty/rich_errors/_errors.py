@@ -15,10 +15,10 @@ __all__ = [
 ]
 
 
-import unittest
+from nose.plugins.skip import SkipTest
 
 
-class BrokenTestException(unittest.SkipTest):
+class BrokenTestException(SkipTest):
     """Skip a test because it is known to be broken.
     
     This avoids constantly re-running tests that are known to fail or cause an
@@ -50,7 +50,7 @@ class BrokenTestException(unittest.SkipTest):
     pass
 
 
-class ExcludeTestException(unittest.SkipTest):
+class ExcludeTestException(SkipTest):
     """Skip a test because the user specifically excluded it from the current
     test run.
     
@@ -66,7 +66,7 @@ class ExcludeTestException(unittest.SkipTest):
     pass
 
 
-class InvalidTestConfigurationException(unittest.SkipTest):
+class InvalidTestConfigurationException(SkipTest):
     """Skip a test because the system is not configured correctly.
     
     For example, this might be used when a test fixture cannot be setup because
@@ -79,7 +79,7 @@ class InvalidTestConfigurationException(unittest.SkipTest):
     pass
 
 
-class IrrelevantTestException(unittest.SkipTest):
+class IrrelevantTestException(SkipTest):
     """Skip a test because it is not relevant for the current system.
     
     For example, this might be used to avoid running a Linux-specific test
