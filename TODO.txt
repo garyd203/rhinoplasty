@@ -11,3 +11,8 @@ specify dependency on nose (include version?)
 Sign the release with GPG
 
 Include licence text in the top-level package header.
+
+BrokenTestException should store a isseu number (for your issue tracking system)
+    - works on the assumption that you know it is broken and have docuemtned it
+    - enforces good practice
+    - can't think of any major downside
