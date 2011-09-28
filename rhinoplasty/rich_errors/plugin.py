@@ -8,7 +8,7 @@ class RichErrorReportingPlugin(ErrorClassPlugin):
     # Standard Plugin attributes
     enabled = False
     name = "rich-errors"
-    score = 1001 # Handle errors before the standard Skip plugin #TODO check this works
+    score = 999 # Handle errors before the standard Skip plugin #TODO check this works
     
     # Define error classes that we handle
     broken = ErrorClass(BrokenTestException, label='BROKEN', isfailure=True)
