@@ -15,10 +15,26 @@ __all__ = [
 ]
 
 
-from nose.plugins.skip import SkipTest
+class RichSkipTestException(StandardError):
+    """Base class for all errors that cause the test to be skipped.
+    
+    Ideally, the base class would be unittest.SkipTest (or, even better,
+    nose.plugins.skip.SkipTest so that it works on all Python versions). This
+    way our rich errors would be treated as Skip's if they are not specially
+    handled.
+    
+    However, the default error handling in unittest.TestCase (which is also
+    used by Nose) treats SkipTest as a special case (rather than a generic
+    error), and strips out all of the exception information apart from the
+    message.
+    
+    Therefore, unless we commit to a rewrite of TestCase.run within Nose, or
+    implement some deep magic with __str__, we are reduced to maintaining a
+    separate exception hierarchy.
+    """
 
 
-class BrokenTestException(SkipTest):
+class BrokenTestException(RichSkipTestException):
     """Skip a test because it is known to be broken.
     
     This avoids constantly re-running tests that are known to fail or cause an
@@ -50,7 +66,7 @@ class BrokenTestException(SkipTest):
     pass
 
 
-class ExcludeTestException(SkipTest):
+class ExcludeTestException(RichSkipTestException):
     """Skip a test because the user specifically excluded it from the current
     test run.
     
@@ -66,7 +82,7 @@ class ExcludeTestException(SkipTest):
     pass
 
 
-class InvalidTestConfigurationException(SkipTest):
+class InvalidTestConfigurationException(RichSkipTestException):
     """Skip a test because the system is not configured correctly.
     
     For example, this might be used when a test fixture cannot be setup because
@@ -79,7 +95,7 @@ class InvalidTestConfigurationException(SkipTest):
     pass
 
 
-class IrrelevantTestException(SkipTest):
+class IrrelevantTestException(RichSkipTestException):
     """Skip a test because it is not relevant for the current system.
     
     For example, this might be used to avoid running a Linux-specific test
