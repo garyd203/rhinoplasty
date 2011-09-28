@@ -11,9 +11,8 @@ class RichErrorReportingPlugin(ErrorClassPlugin):
     name = "rich-errors"
     
     # Define error classes that we handle
-    #TODO don't display tracebacks for the errors that are marked as isFailure
     #TODO Be able to customise the single letter labels
-    broken = ErrorClass(BrokenTestException, label='BROKEN', isfailure=True)
+    broken = ErrorClass(BrokenTestException, label='BROKEN', isfailure=False) #TODO should this be a failure? If so, we want to stop displaying tracebacks for it.
     excluded = ErrorClass(ExcludeTestException, label='XCLUDE', isfailure=False) #TODO better label
     misconfigured = ErrorClass(InvalidTestConfigurationException, label='CONFIG_WRONG', isfailure=True) #TODO better label
     irrelevant = ErrorClass(IrrelevantTestException, label='IRRELEVANT', isfailure=False)
