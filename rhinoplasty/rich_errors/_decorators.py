@@ -4,7 +4,7 @@ __all__ = [
     'broken_inherited_tests',
     'broken_test',
     'irrelevant_test',
-    'test_subject_not_implemented',
+    'unimplemented_subject_under_test',
 ]
 
 
@@ -109,9 +109,9 @@ def irrelevant_test(condition, description):
 
 
 @nottest
-def test_subject_not_implemented(arg):
+def unimplemented_subject_under_test(arg):
     """Decorator to mark that this test function or test class is broken
-    because functionality of the subject under test has not been implemented.
+    because the functionality under test has not been implemented.
     
     Alternatively, the test may raise NotImplementedError directly, and it will
     be treated exactly the same.
