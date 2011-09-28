@@ -4,6 +4,7 @@ __all__ = [
     'broken_inherited_tests',
     'broken_test',
     'irrelevant_test',
+    'test_subject_not_implemented',
 ]
 
 
@@ -108,6 +109,36 @@ def irrelevant_test(condition, description):
 
 
 @nottest
+def test_subject_not_implemented(arg):
+    """Decorator to mark that this test function or test class is broken
+    because functionality of the subject under test has not been implemented.
+    
+    Alternatively, the test may raise NotImplementedError directly, and it will
+    be treated exactly the same.
+    
+    This decorator may be used without arguments, or else it accepts a single
+    string argument describing the functionality that is not implemented.
+    
+    @see BrokenTestException for further information on usage.
+    """
+    # Allow for two different decoration options
+    arg_is_fixture = True
+    description = "Subject Under Test is not yet implemented"
+    
+    if isinstance(arg, basestring):
+        description = arg
+        arg_is_fixture = False
+    
+    # Get the wrapper function for the test fixture
+    func = _decorate_fixture(description, NotImplementedError)
+    
+    # Decorate the fixture
+    if arg_is_fixture:
+        return func(arg)
+    return func
+
+
+@nottest
 def _decorate_fixture(description, ExceptionClass):
     """Get a decorator wrapper function for a test fixture, that will raise an
     exception when the tests are run.
@@ -115,6 +146,7 @@ def _decorate_fixture(description, ExceptionClass):
     @param description: Description for why the decorated object is skipped.
     @param ExceptionClass: The exception class to raise.
     """
+    #TODO should we move this function to the wrapper module?
     def decorate(fixture):
         if inspect.isclass(fixture):
             # Create a replacement class that raises an appropriate exception
