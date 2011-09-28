@@ -51,12 +51,15 @@ def wrap_test_class(original):
         
         # Copy metadata across. We can't necessarily copy attributes directly,
         # and we need to filter them anyway.
-        for name, value in original.__dict__.items():
+        for name in dir(original):
             # Ignore special attributes
             if name[:2] == "__" and name [-2:] == "__":
                 continue
             
-            # Do not copy methods (obviously)
+            # Get the actual attribute
+            value = getattr(original, name)
+            
+            # Do not copy methods (obviously).
             if callable(value):
                 continue
             
@@ -69,6 +72,23 @@ def wrap_test_class(original):
         return replacement
     
     return decorate
+
+
+class ExampleClass(object):
+    @classmethod
+    def class_func(cls):
+        pass
+    
+    def func(self):
+        pass
+
+callable(ExampleClass.func)
+callable(getattr(ExampleClass, 'func'))
+callable(ExampleClass.__dict__['func'])
+
+callable(ExampleClass.class_func)
+callable(getattr(ExampleClass, 'class_func'))
+callable(ExampleClass.__dict__['class_func'])
 
 
 def wrap_test_fixture(original):
