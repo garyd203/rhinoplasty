@@ -4,9 +4,7 @@ from nose.plugins.errorclass import ErrorClass, ErrorClassPlugin
 from _errors import *
 
 class RichErrorReportingPlugin(ErrorClassPlugin):
-    """Plugin that installs error class handling for all the rich errors
-    defined in this package.
-    """
+    """Plugin that installs error class handling for a richer set of errors."""
     # Standard Plugin attributes
     enabled = False
     name = "rich-errors"
