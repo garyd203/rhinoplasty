@@ -1,3 +1,7 @@
+Version 0.4.4
+=============
+* Tweak display of broken tests.
+
 Version 0.4.3
 =============
 * Fixes to rich error implementation (don't subclass SkipTest).
