@@ -1,6 +1,7 @@
 Version 0.4.9
 =============
 * Non-functional improvements.
+* Rearrange and clean up code.
 
 Version 0.4.8
 =============
