@@ -74,23 +74,6 @@ def wrap_test_class(original):
     return decorate
 
 
-class ExampleClass(object):
-    @classmethod
-    def class_func(cls):
-        pass
-    
-    def func(self):
-        pass
-
-callable(ExampleClass.func)
-callable(getattr(ExampleClass, 'func'))
-callable(ExampleClass.__dict__['func'])
-
-callable(ExampleClass.class_func)
-callable(getattr(ExampleClass, 'class_func'))
-callable(ExampleClass.__dict__['class_func'])
-
-
 def wrap_test_fixture(original):
     """Decorator to wrap a test case or test suite.
     
