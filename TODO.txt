@@ -4,7 +4,7 @@ Set us up on readthedocs. Include the readthedocs URL as the project homepage
 
 Put repository online
 
-specify dependency on nose (include version?)
+specify dependency on nose for PyPI (include version?)
 
 Sign the release with GPG
 
