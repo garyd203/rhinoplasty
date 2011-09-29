@@ -8,8 +8,6 @@ specify dependency on nose (include version?)
 
 Sign the release with GPG
 
-Include licence text in the top-level package header.
-
 BrokenTestException should store a defect number (for your issue tracking system)
     - works on the assumption that you know it is broken and have documented it
     - enforces good practice
