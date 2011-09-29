@@ -19,7 +19,7 @@ def wrap_test_function(original):
         raise ValueError("Original function is not actually a function.")
     
     # Just use the standard Nose function wrapper
-    #TODO investigate whether any changes need to be made to the standard function
+    #TODO investigate whether any changes need to be made to the standard Nose function
     return make_decorator(original)
 
 
