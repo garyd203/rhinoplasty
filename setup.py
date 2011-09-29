@@ -1,6 +1,7 @@
 """Packaging."""
 
 import os
+import re
 from setuptools import find_packages
 from setuptools import setup
 
@@ -15,10 +16,19 @@ def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 
+def get_package_version():
+    version_module = os.path.join(os.path.dirname(__file__), "rhinoplasty", "_version.py")
+    for line in open(version_module):
+        match = re.search('''__version__ *= *['"]([0-9.]+)['"]''', line)
+        if match is not None:
+            return match.group(1)
+    raise Exception("Package version could not be found")
+
+
 ## Run Setup ##
 setup(
     name = "rhinoplasty",
-    version = "0.4.8",
+    version = get_package_version(),
     author = "Gary Donovan",
     author_email = "garyd@crucialfruit.com.au",
     url = "N/A", #FIXME get a URL
