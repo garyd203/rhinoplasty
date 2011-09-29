@@ -14,3 +14,7 @@ BrokenTestException should store a defect number (for your issue tracking system
     - works on the assumption that you know it is broken and have documented it
     - enforces good practice
     - can't think of any major downside
+
+Add version number in code
+    __version__ string
+    version_info tuple
