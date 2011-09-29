@@ -33,7 +33,7 @@ def broken_test(arg):
         arg_is_fixture = False
     
     # Get the wrapper function for the test fixture
-    func = _decorate_fixture(description, BrokenTestException)
+    func = decorate_fixture_with_exception(BrokenTestException(description))
     
     # Decorate the fixture
     if arg_is_fixture:
@@ -99,7 +99,7 @@ def irrelevant_test(condition, description):
     
     if condition:
         # Skip the test fixture
-        decorate = _decorate_fixture(description, IrrelevantTestException)
+        decorate = decorate_fixture_with_exception(IrrelevantTestException(description))
     else:
         # Leave the decorated fixture unchanged.
         def decorate(fixture):
@@ -130,7 +130,7 @@ def unimplemented_subject_under_test(arg):
         arg_is_fixture = False
     
     # Get the wrapper function for the test fixture
-    func = _decorate_fixture(description, NotImplementedError)
+    func = decorate_fixture_with_exception(NotImplementedError(description))
     
     # Decorate the fixture
     if arg_is_fixture:
@@ -138,13 +138,11 @@ def unimplemented_subject_under_test(arg):
     return func
 
 
-@nottest
-def _decorate_fixture(description, ExceptionClass):
+def decorate_fixture_with_exception(ex):
     """Get a decorator wrapper function for a test fixture, that will raise an
-    exception when the tests are run.
+    exception instead of running the tests.
     
-    @param description: Description for why the decorated object is skipped.
-    @param ExceptionClass: The exception class to raise.
+    @param ex: Exception instance to raise.
     """
     #TODO should we move this function to the wrapper module?
     def decorate(fixture):
@@ -153,20 +151,18 @@ def _decorate_fixture(description, ExceptionClass):
             @wrap_test_fixture(fixture)
             class ClassWrapper(object):
                 def test_suite_raises_exception(self):
-                    raise ExceptionClass(description)
+                    raise ex
                 test_suite_raises_exception.__doc__ = fixture.__doc__
             
             return ClassWrapper
                     
         elif callable(fixture):
             # Create a replacement function that raises an appropriate exception
-            
-            #noinspection PyUnusedLocal
             @wrap_test_fixture(fixture)
-            def function_wrapper(*args):
-                """Replaces the failing test and unconditionally raises an exception."""
-                raise ExceptionClass(description)
-            return function_wrapper
+            def test_function_wrapper(*args):
+                """Replaces a test and unconditionally raises an exception."""
+                raise ex
+            return test_function_wrapper
         else:
             raise ValueError("Decorated object is neither a class nor a function")
     
