@@ -1,4 +1,5 @@
 """Decorators for applying rich exceptions."""
+from wrapper import wrap_fixture_with_exception
 
 __all__ = [
     'broken_inherited_tests',
@@ -11,7 +12,7 @@ __all__ = [
 from _errors import BrokenTestException
 from _errors import IrrelevantTestException
 from nose.tools import nottest
-from rhinoplasty.wrapper import wrap_test_fixture
+from rhinoplasty.wrapper import wrap_test_function
 import inspect
 
 
@@ -33,7 +34,7 @@ def broken_test(arg):
         arg_is_fixture = False
     
     # Get the wrapper function for the test fixture
-    func = decorate_fixture_with_exception(BrokenTestException(description))
+    func = wrap_fixture_with_exception(BrokenTestException(description))
     
     # Decorate the fixture
     if arg_is_fixture:
@@ -73,7 +74,7 @@ def broken_inherited_tests(reason, *functions):
             
             # Create a replacement function
             @broken_test(reason)
-            @wrap_test_fixture(original_function)
+            @wrap_test_function(original_function)
             def new_method(self):
                 bound_function = original_function.__get__(self, TestClass)
                 bound_function()
@@ -99,7 +100,7 @@ def irrelevant_test(condition, description):
     
     if condition:
         # Skip the test fixture
-        decorate = decorate_fixture_with_exception(IrrelevantTestException(description))
+        decorate = wrap_fixture_with_exception(IrrelevantTestException(description))
     else:
         # Leave the decorated fixture unchanged.
         def decorate(fixture):
@@ -130,7 +131,7 @@ def unimplemented_subject_under_test(arg):
         arg_is_fixture = False
     
     # Get the wrapper function for the test fixture
-    func = decorate_fixture_with_exception(NotImplementedError(description))
+    func = wrap_fixture_with_exception(NotImplementedError(description))
     
     # Decorate the fixture
     if arg_is_fixture:
@@ -138,32 +139,4 @@ def unimplemented_subject_under_test(arg):
     return func
 
 
-def decorate_fixture_with_exception(ex):
-    """Get a decorator wrapper function for a test fixture, that will raise an
-    exception instead of running the tests.
-    
-    @param ex: Exception instance to raise.
-    """
-    #TODO should we move this function to the wrapper module?
-    def decorate(fixture):
-        if inspect.isclass(fixture):
-            # Create a replacement class that raises an appropriate exception
-            @wrap_test_fixture(fixture)
-            class ClassWrapper(object):
-                def test_suite_raises_exception(self):
-                    raise ex
-                test_suite_raises_exception.__doc__ = fixture.__doc__
-            
-            return ClassWrapper
-                    
-        elif callable(fixture):
-            # Create a replacement function that raises an appropriate exception
-            @wrap_test_fixture(fixture)
-            def test_function_wrapper(*args):
-                """Replaces a test and unconditionally raises an exception."""
-                raise ex
-            return test_function_wrapper
-        else:
-            raise ValueError("Decorated object is neither a class nor a function")
-    
-    return decorate
+

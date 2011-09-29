@@ -88,3 +88,34 @@ def wrap_test_fixture(original):
         return wrap_test_function(original)
     else:
         raise ValueError("Decorated object type is not recognised")
+
+
+def wrap_fixture_with_exception(ex):
+    """Decorator that will raise an exception instead of running the tests in
+    a test class or test function
+    
+    @param ex: Exception instance to raise.
+    """
+    def decorate(fixture):
+        if inspect.isclass(fixture):
+            # Create a replacement class that raises an appropriate exception
+            @wrap_test_class(fixture)
+            class ClassWrapper(object):
+                def test_suite_raises_exception(self):
+                    raise ex
+                test_suite_raises_exception.__doc__ = fixture.__doc__
+            
+            return ClassWrapper
+        
+        elif callable(fixture):
+            # Create a replacement function that raises an appropriate exception
+            @wrap_test_function(fixture)
+            def test_function_wrapper(*args):
+                """Replaces a test and unconditionally raises an exception."""
+                raise ex
+            return test_function_wrapper
+        
+        else:
+            raise ValueError("Decorated object is neither a class nor a function")
+    
+    return decorate
