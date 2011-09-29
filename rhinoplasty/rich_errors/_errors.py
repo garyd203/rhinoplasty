@@ -86,7 +86,6 @@ class InvalidTestConfigurationException(RichSkipTestException):
     
     This situation should be considered a test failure.
     """
-    #TODO review all uses of this exception to ensure they are appropriate (eg. some might need to be ExcludeTestException, or a different sort of error)
     pass
 
 
