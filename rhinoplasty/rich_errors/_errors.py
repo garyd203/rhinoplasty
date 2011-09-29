@@ -1,9 +1,5 @@
 """Additional exceptions for working with automated tests."""
 
-#TODO new error for when the functionality is not yet implemented (although the tests are written).
-    # -> just use NotImplementedError in the code, and handle that specifically
-    # Add an alias (or decorator) here to make this clearer? SubjectUnderTestNotImplementedException
-
 __all__ = [
     'BrokenTestException',
     'ExcludeTestException',
