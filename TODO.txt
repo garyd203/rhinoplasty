@@ -2,8 +2,6 @@ Use restructured text for the standalone and in-python documentation
 
 Set us up on readthedocs. Include the readthedocs URL as the project homepage
 
-Upload to PyPI
-
 Put repository online
 
 specify dependency on nose (include version?)
@@ -12,7 +10,7 @@ Sign the release with GPG
 
 Include licence text in the top-level package header.
 
-BrokenTestException should store a isseu number (for your issue tracking system)
-    - works on the assumption that you know it is broken and have docuemtned it
+BrokenTestException should store a defect number (for your issue tracking system)
+    - works on the assumption that you know it is broken and have documented it
     - enforces good practice
     - can't think of any major downside
