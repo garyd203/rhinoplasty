@@ -18,7 +18,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import re
 
-## Version Information ##
+
+## Package Version ##
 
 # Version string
 from _version import __version__
