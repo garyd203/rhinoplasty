@@ -1,3 +1,7 @@
+Version 0.4.9
+=============
+* Non-functional improvements.
+
 Version 0.4.8
 =============
 * Bug fix with handling NotImplementedError.
