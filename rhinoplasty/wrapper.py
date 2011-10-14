@@ -24,7 +24,7 @@ def wrap_test_function(original):
 
 
 def wrap_test_class(original):
-    """Decorator to wrap a test suite.
+    """Decorator to wrap a test class.
     
     This will copy any relevant metadata from the original class to the new
     definition.
@@ -75,7 +75,7 @@ def wrap_test_class(original):
 
 
 def wrap_test_fixture(original):
-    """Decorator to wrap a test case or test suite.
+    """Decorator to wrap a test function or test class.
     
     This will copy any relevant metadata from the original test to the new
     definition.
