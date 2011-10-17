@@ -89,6 +89,14 @@ class _TimeoutFunctionThread(Thread):
         # an overly long function to finish executing before exiting. This is
         # most relevant for running a single unit test.
         self.daemon = True
+        
+        # Use a helpful thread name
+        index = self.name.rfind("-")
+        if index != -1:
+            thread_count = int(self.name[index+1:])
+            self.name = "TimeBoxedFunction-%d" % thread_count
+        else:
+            self.name = "TimeBoxedFunction-" + self.name
     
     def get_result(self):
         """Get the result from running the target function.
