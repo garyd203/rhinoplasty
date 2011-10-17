@@ -53,8 +53,11 @@ def timeboxed(max_time):
             # threads for parallel processing (rather than, say, the
             # multiprocessing module) because that makes it easier to replicate
             # the target function's execution environment.
+                #TODO not sure if this difference is as big as i think
             
-            #TODO Provide a way to copy thread local storage (And any other thread context we can think of) across to the new thread
+            #TODO Provide a way to copy thread local storage (and any other thread context we can think of) across to the new thread
+                # Callbacks to do this manually...
+            
             target = _TimeoutFunctionThread(lambda : func(*args, **kwargs))
             target.start()
             
