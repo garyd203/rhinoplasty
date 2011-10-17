@@ -34,7 +34,7 @@ setup(
     url = "N/A", #FIXME get a URL
     license = "LGPL",
     keywords = "Nose test unittest",
-    description = ("Experimental extensions to the Nose test runner."),
+    description = ("Experimental extensions and helper functions for the Nose test runner."),
     long_description = read('README.txt'),
     classifiers = [
         "Development Status :: 4 - Beta",
