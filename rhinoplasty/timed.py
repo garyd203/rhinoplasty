@@ -4,10 +4,7 @@ from nose.tools import TimeExpired
 from threading import Event
 from threading import Thread
 from .wrapper import wrap_test_function
-import logging
-
-
-logger = logging.getLogger("rhinoplasty.timed")
+import sys
 
 
 # Limit A Test's Duration
@@ -51,9 +48,7 @@ def timeboxed(max_time):
             assert target.finished.is_set()
             
             # Return result for original function
-            if target.exception is not None:
-                raise target.exception
-            return target.result
+            return target.get_result()
         
         return new_func
     
@@ -72,38 +67,53 @@ class _TimeoutFunctionThread(Thread):
     def __init__(self, func):
         Thread.__init__(self)
         
+        # Event that is set when the function has finished executing
+        self.finished = Event()
+        
         # Target function to execute.
         #
         # The default Thread implementation will run a supplied function, but
         # it won't do anything with the result of the function. Hence we need
         # to completely replace this functionality.
-        self.target_func = func
-        
-        # Event that is set when the function has finished executing
-        self.finished = Event()
+        self.__target_func = func
         
         # Result from executing the target function. This is only valid when
-        # the function has finished, and if an exception was not raised (ie.
-        # The exception field is None).
-        self.result = None
+        # the function has finished, and if an exception was not raised
+        self.__result = None
         
-        # Exception raised by the target function (if any). This is only valid
-        # when the function has finished.
-        self.exception = None
+        # Standard traceback data for an exception raised by the target
+        # function (if any). This is only valid when the function has finished.
+        self.__exc_info = None
         
         # Mark the thread as daemonic so that the Python process won't wait for
         # an overly long function to finish executing before exiting. This is
         # most relevant for running a single unit test.
         self.daemon = True
     
+    def get_result(self):
+        """Get the result from running the target function.
+        
+        @return The target function's return value.
+        @raise Any unhandled exception caused by the target function. The
+            original traceback will be preserved.
+        """
+        # Callers are supposed to wait for the function to complete before
+        # getting the result.
+        if not self.finished.is_set():
+            raise StandardError("Target function has not finished executing yet")
+        
+        # Raise an exception or return the result, as relevant
+        if self.__exc_info is None:
+            return self.__result
+        
+        raise self.__exc_info[1], None, self.__exc_info[2]
+    
     def run(self):
         self.finished.clear()
         
         try:
-            self.result = self.target_func()
-        except Exception, ex:
-            #TODO is there a way to keep the exception stack when we re-raise it in the main thread?
-            logger.error("Error executing timed function", exc_info=True)
-            self.exception = ex
+            self.__result = self.__target_func()
+        except:
+            self.__exc_info = sys.exc_info()
         
         self.finished.set()
