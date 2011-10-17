@@ -1,3 +1,7 @@
+Version 0.5.2
+=============
+* Improve exception handling for @timeboxed
+
 Version 0.5.1
 =============
 * Fix import errors
