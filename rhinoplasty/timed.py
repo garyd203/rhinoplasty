@@ -4,6 +4,10 @@ from nose.tools import TimeExpired
 from threading import Event
 from threading import Thread
 from .wrapper import wrap_test_function
+import logging
+
+
+logger = logging.getLogger("rhinoplasty.timed")
 
 
 # Limit A Test's Duration
@@ -79,7 +83,8 @@ class _TimeoutFunctionThread(Thread):
         self.finished = Event()
         
         # Result from executing the target function. This is only valid when
-        # the function has finished, and if exception is None.
+        # the function has finished, and if an exception was not raised (ie.
+        # The exception field is None).
         self.result = None
         
         # Exception raised by the target function (if any). This is only valid
@@ -97,6 +102,8 @@ class _TimeoutFunctionThread(Thread):
         try:
             self.result = self.target_func()
         except Exception, ex:
+            #TODO is there a way to keep the exception stack when we re-raise it in the main thread?
+            logger.error("Error executing timed function", exc_info=True)
             self.exception = ex
         
         self.finished.set()
