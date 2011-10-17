@@ -3,7 +3,7 @@
 from nose.tools import TimeExpired
 from threading import Event
 from threading import Thread
-from wrapper import wrap_test_function
+from .wrapper import wrap_test_function
 
 
 # Limit A Test's Duration
