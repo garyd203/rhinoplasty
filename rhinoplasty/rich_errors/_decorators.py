@@ -1,5 +1,4 @@
 """Decorators for applying rich exceptions."""
-from wrapper import wrap_fixture_with_exception
 
 __all__ = [
     'broken_inherited_tests',
@@ -13,6 +12,7 @@ from _errors import BrokenTestException
 from _errors import IrrelevantTestException
 from nose.tools import nottest
 from rhinoplasty.wrapper import wrap_test_function
+from rhinoplasty.wrapper import wrap_fixture_with_exception
 import inspect
 
 
