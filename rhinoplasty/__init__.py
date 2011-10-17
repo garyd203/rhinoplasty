@@ -1,4 +1,4 @@
-"""Experimental extensions to Nose.
+"""Experimental extensions and helper functions for the Nose test runner.
 
 Copyright 2011 IRESS Market Technology Limited.
 
