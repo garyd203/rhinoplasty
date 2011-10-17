@@ -15,6 +15,7 @@ class TestTimeBoxedDecorator(object):
     
     #TODO tests:
         # accept no args, sequential args, keyword args
+        # raise exception
     
     # Test Methods
     # ------------
@@ -61,6 +62,7 @@ class TestTimeBoxedDecorator(object):
     
     # Helper Methods
     # --------------
+    #TODO put these as local funcs
     @timeboxed(0.01)
     def _run_long_method(self, value):
         time.sleep(10)
