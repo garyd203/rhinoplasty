@@ -12,3 +12,8 @@ BrokenTestException should store a defect number (for your issue tracking system
     - works on the assumption that you know it is broken and have documented it
     - enforces good practice
     - can't think of any major downside
+
+module that contains explicit imports of all nose.tools assert_xx functions
+    - make imports easier for IDE's that look for such things and can't detect dynamically assigned vars
+
+decorator to specify a generator test method in one function
