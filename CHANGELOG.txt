@@ -1,3 +1,7 @@
+Version 0.5.3
+=============
+* Clean up code.
+
 Version 0.5.2
 =============
 * Improve exception handling for @timeboxed
