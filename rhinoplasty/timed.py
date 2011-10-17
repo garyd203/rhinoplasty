@@ -25,7 +25,7 @@ def timeboxed(max_time):
     
     def decorate(func):
         @wrap_test_function(func)
-        def new_func(*args, **kwargs):
+        def timeboxed_func(*args, **kwargs):
             # Create a separate thread to run the function in.
             # 
             # Because we could decorate any arbitrary function, we do not have
@@ -50,7 +50,7 @@ def timeboxed(max_time):
             # Return result for original function
             return target.get_result()
         
-        return new_func
+        return timeboxed_func
     
     return decorate
 
