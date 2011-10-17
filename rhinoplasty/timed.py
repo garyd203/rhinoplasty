@@ -12,6 +12,20 @@ import sys
 def timeboxed(max_time):
     """Decorator to limit how long a test will run for.
     
+    Caution: This decorator guarantees that the target function will return
+    within the specified time limit (or thereabouts). However, if it does not
+    complete in time, it will continue to run in a "zombie" background thread.
+    Most of the time this will be acceptable, but if you need finer control
+    over the lifecycle of your function, then consider a more explicit method
+    of controlling it's execution (or else just deal with it running overtime).
+    You might want to consider:
+     * What will happen to the test fixture if you tear it down while the test
+        is still running?
+     * What will happen to the test function if it's test fixture gets torn
+        down while it is still running?
+     * What will happen to other test functions if this test is still
+        running when they run?
+    
     @param max_time: The maximum number of seconds the test is allowed to run
         for.
     @raise TimeExpired If the test runs too long. Nose will treat this as a
@@ -26,18 +40,21 @@ def timeboxed(max_time):
     def decorate(func):
         @wrap_test_function(func)
         def timeboxed_func(*args, **kwargs):
-            # Create a separate thread to run the function in.
-            # 
-            # Because we could decorate any arbitrary function, we do not have
-            # any control over it's execution. Hence we need to run the
-            # function in parallel, so that if it exceeds the allocated time
-            # we can abandon it and return from the original thread of
-            # execution. 
-            # 
-            # The multiprocessing module would provide some useful features
-            # (such as the ability to terminate the target function if it runs
-            # too long), but we can't use it because that would change the
-            # execution environment for the target function.
+            # There is no perfect way to timeout an arbitrary function in
+            # Python. See, for example, Eli Bendersky's blog post: 
+            #   http://eli.thegreenplace.net/2011/08/22/how-not-to-set-a-timeout-on-a-computation-in-python/
+            #
+            # In this case, we have the additional constraint of needing to
+            # propagate the current environment, in case that is required by
+            # the test function.
+            #
+            # We have chosen to run the target function in parallel, and to
+            # allow it to finish on its own if it runs too long. We will use
+            # threads for parallel processing (rather than, say, the
+            # multiprocessing module) because that makes it easier to replicate
+            # the target function's execution environment.
+            
+            #TODO Provide a way to copy thread local storage (And any other thread context we can think of) across to the new thread
             target = _TimeoutFunctionThread(lambda : func(*args, **kwargs))
             target.start()
             
