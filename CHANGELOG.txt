@@ -1,3 +1,7 @@
+Version 0.5.0
+=============
+* New timed module (with @timeboxed decorator)
+
 Version 0.4.9
 =============
 * Non-functional improvements.
