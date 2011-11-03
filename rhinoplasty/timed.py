@@ -43,6 +43,7 @@ def timeboxed(max_time):
             # There is no perfect way to timeout an arbitrary function in
             # Python. See, for example, Eli Bendersky's blog post: 
             #   http://eli.thegreenplace.net/2011/08/22/how-not-to-set-a-timeout-on-a-computation-in-python/
+            #TODO use CPython's thread killing instead. see https://bitbucket.org/denis/gevent/src/a21725584355/greentest/test_threading.py
             #
             # In this case, we have the additional constraint of needing to
             # propagate the current environment, in case that is required by
