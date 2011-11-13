@@ -17,37 +17,23 @@ import inspect
 
 
 @nottest
-def broken_test(arg):
+def broken_test(item_number, reason):
     """Decorator to mark that this test function or test class is broken.
     
-    This decorator may be used without arguments, or else it accepts a single
-    string argument describing why the test fails.
-    
+    @param item_number: Item number for the related defect in the issue tracker.
+    @param reason: Brief description of why the test is failing.
     @see BrokenTestException for further information on usage.
     """
-    # Allow for two different decoration options
-    arg_is_fixture = True
-    description = "Test is known to fail"
-    
-    if isinstance(arg, basestring):
-        description = arg
-        arg_is_fixture = False
-    
-    # Get the wrapper function for the test fixture
-    func = wrap_fixture_with_exception(BrokenTestException(description))
-    
-    # Decorate the fixture
-    if arg_is_fixture:
-        return func(arg)
-    return func
+    return wrap_fixture_with_exception(BrokenTestException(item_number, reason))
 
 
 @nottest
-def broken_inherited_tests(reason, *functions):
+def broken_inherited_tests(item_number, reason, *functions):
     """Decorator to mark that some test cases inherited from a superclass
     are broken.
     
-    @param reason: Description of why the test is failing.
+    @param item_number: Item number for the related defect in the issue tracker.
+    @param reason: Brief description of why the test is failing.
     @param functions: List of function names, provided as additional arguments
         to the decorator.
     @see BrokenTestException for further information on usage.
@@ -57,8 +43,12 @@ def broken_inherited_tests(reason, *functions):
         if not inspect.isclass(TestClass):
             raise TypeError("@failing_virtual_tests must be applied to a class")
         
+        if isinstance(item_number, basestring) and \
+                hasattr(TestClass, item_number):
+            raise ValueError("Defect item number appears to actually be a method: %s" % item_number)
+        
         if hasattr(TestClass, reason):
-            raise ValueError("Failure reason appears to actually be a method: '%s'" % reason)
+            raise ValueError("Failure reason appears to actually be a method: %s" % reason)
         
         # Mark these tests for this subclass only.
         # The only way to do this is to overwrite the method on the subclass,
@@ -73,7 +63,7 @@ def broken_inherited_tests(reason, *functions):
                 raise ValueError("Test method '%s' is not defined by any superclass of %s" % (funcname, TestClass))
             
             # Create a replacement function
-            @broken_test(reason)
+            @broken_test(item_number, reason)
             @wrap_test_function(original_function)
             def new_method(self):
                 bound_function = original_function.__get__(self, TestClass)

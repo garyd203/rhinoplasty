@@ -56,8 +56,23 @@ class BrokenTestException(RichSkipTestException):
     it does not attempt to run the test. It is also more flexible
     (expectedFailure can only be applied to functions as a decorator), and
     there is support for it in Nose.
+    
+    It is expected that each broken test will have an associated defect item
+    in the project's issue tracker. This must be included in the exception
+    as a separate field.
     """
-    pass
+    
+    def __init__(self, item_number, reason):
+        super(BrokenTestException, self).__init__(reason)
+        
+        self.item_number = item_number
+        self.reason = reason
+    
+    def __repr__(self):
+        return "%s(%s, '%s')" % (self.__class__.__name__, `self.item_number`, self.reason)
+    
+    def __str__(self):
+        return "Broken Test: %s (defect #%s)" % (self.reason, self.item_number)
 
 
 class ExcludeTestException(RichSkipTestException):
