@@ -61,7 +61,6 @@ class BrokenTestException(RichSkipTestException):
     in the project's issue tracker. This must be included in the exception
     as a separate field.
     """
-    
     def __init__(self, item_number, reason):
         super(BrokenTestException, self).__init__(reason)
         
