@@ -99,6 +99,10 @@ class InvalidTestConfigurationException(RichSkipTestException):
     has not been supplied by the user. 
     
     This situation should be considered a test failure.
+    
+    @see IrrelevantTestException: Some configuration problems simply mean that
+        a test should be skipped because it is not relevant for the current
+        system.
     """
     pass
 
