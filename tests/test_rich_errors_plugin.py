@@ -1,7 +1,5 @@
 """Integration tests for the rhinoplasty.rich_errors.plugin module."""
 
-#TODO these tests need to be run in a separate process
-
 from cStringIO import StringIO
 from nose.config import Config
 from nose.core import TestProgram
@@ -14,6 +12,9 @@ import rhinoplasty.rich_errors.plugin
 import shutil
 import tempfile
 
+
+# Xunit Interaction
+# =================
 class TestXunitPluginPatch(object):
     """Test how the rich errors plugin interacts with the xunit plugin."""
     
@@ -23,10 +24,6 @@ class TestXunitPluginPatch(object):
     def setup_class(cls):
         cls.fake_tests = os.path.join(os.path.dirname(__file__),
                                       "rich_errors_plugin_data")
-        cls.plugin_classes = [
-            nose.plugins.xunit.Xunit,
-            rhinoplasty.rich_errors.plugin.RichErrorReportingPlugin,
-        ]
     
     
     # Test Cases
@@ -71,25 +68,17 @@ class TestXunitPluginPatch(object):
         
         @param args: A list of command line arguments for Nose. This should
             not include the nose command, or a test suite.
-        @return A file-like object wrapping the output from Nose. 
         """
-        # Setup command line arguments
-        argv = ["nosetests"]
-        argv.extend(args)
-        argv.append(self.fake_tests)
+        # Setup extra command line arguments
+        args = list(args)
+        args.append(self.fake_tests)
         
-        # Setup Nose
-        stream = StringIO()
-        plugins = [PluginClass() for PluginClass in self.plugin_classes]
-        config = Config(stream=stream,
-                      plugins=PluginManager(plugins=plugins))
-            
-        self.nose = TestProgram(argv=argv, config=config, exit=False)
-        
-        # Return output
-        stream.flush()
-        stream.seek(0)
-        return stream
+        # Run Nose in a separate process to avoid mangling the memory of this
+        # process.
+        from multiprocessing import Process
+        p = Process(target=_run_fake_tests, args=tuple(args))
+        p.start()
+        p.join()
     
     def _verify_xunit_output(self, filename, tests, errors, failures, skips):
         """Verify that the xunit file contains the expected number of tests."""
@@ -107,3 +96,29 @@ class TestXunitPluginPatch(object):
         assert_equals(skips, int(dom.documentElement.getAttribute("skip")),
                       "Incorrect number of skipped tests"
         )
+
+
+def _run_fake_tests(*args):
+    """Helper function to run Nose with the supplied arguments.
+    
+    This should be called in a standalone process.
+    """
+    # Fudge command line arguments
+    argv = ["nosetests"]
+    argv.extend(args)
+    
+    # Setup plugins
+    plugin_classes = [
+        nose.plugins.xunit.Xunit,
+        rhinoplasty.rich_errors.plugin.RichErrorReportingPlugin,
+    ]
+    plugins = [PluginClass() for PluginClass in plugin_classes]
+    
+    # Use a custom output stream, otherwise Nose will write to stderr for the
+    # parent process
+    stream = StringIO()
+    
+    # Run Nose
+    config = Config(stream=stream,
+                    plugins=PluginManager(plugins=plugins))
+    TestProgram(argv=argv, config=config, exit=False)
