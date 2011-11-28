@@ -103,6 +103,7 @@ def _run_fake_tests(*args):
     
     This should be called in a standalone process.
     """
+    #TODO child process picks up module modifications from parent process
     # Fudge command line arguments
     argv = ["nosetests"]
     argv.extend(args)
