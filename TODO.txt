@@ -13,3 +13,6 @@ module that contains explicit imports of all nose.tools assert_xx functions
     - have default implementations of functions if the python version does not contain them.
 
 decorator to specify a generator test method in one function
+
+mangle python path to find current project when testing, instead of installed rhinoplasty package
+    -> Use tox?
