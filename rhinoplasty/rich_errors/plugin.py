@@ -16,6 +16,7 @@ class RichErrorReportingPlugin(ErrorClassPlugin):
     excluded = ErrorClass(ExcludeTestException, label='XCLUDE', isfailure=False) #TODO better label
     irrelevant = ErrorClass(IrrelevantTestException, label='IRRELEVANT', isfailure=False)
     misconfigured = ErrorClass(InvalidTestConfigurationException, label='CONFIG_WRONG', isfailure=True) #TODO better label
+    transient = ErrorClass(TransientTestError, label="TRANSIENT", isfailure=False)
     unimplemented = ErrorClass(NotImplementedError, label="UNIMPLEMENTED", isfailure=False) #TODO should this be a failure? If so, we want to stop displaying tracebacks for it.
     
     # Use default implementation of options() and configure to enable this plugin

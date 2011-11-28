@@ -5,6 +5,7 @@ __all__ = [
     'ExcludeTestException',
     'InvalidTestConfigurationException',
     'IrrelevantTestException',
+    'TransientTestError',
 ]
 
 
@@ -112,5 +113,15 @@ class IrrelevantTestException(RichSkipTestException):
     
     For example, this might be used to avoid running a Linux-specific test
     under Microsoft Windows.
+    """
+    pass
+
+
+class TransientTestError(RichSkipTestException):
+    """A test failed due to a transient error outside the test environment.
+    
+    For example, this might be used when there is an issue with network
+    connectivity, or when a 3rd party webservices server is temporarily
+    unavailable.
     """
     pass
