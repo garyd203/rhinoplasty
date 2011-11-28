@@ -63,10 +63,6 @@ class TestXunitPluginPatch(object):
         # Teardown
         shutil.rmtree(xunit_output_dir)
     
-    def test_rich_errors_without_xunit(self):
-        """Verify rich errors plugin still works when xunit is disabled."""
-        self._run_nose("--with-rich-errors")
-    
     
     # Helper Methods
     # --------------
