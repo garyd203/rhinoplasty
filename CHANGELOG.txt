@@ -1,3 +1,7 @@
+Version 0.6.2
+=============
+* New plugin for handling zipped files.
+
 Version 0.6.1
 =============
 * New rich error type: TransientErrorTest

@@ -18,3 +18,5 @@ decorator to specify a generator test method in one function
 
 mangle python path to find current project when testing, instead of installed rhinoplasty package
     -> Use tox?
+
+In load-zipfile plugin, add support for different archive types, such as tar.gz and 7z
