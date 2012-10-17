@@ -50,6 +50,7 @@ setup(
     entry_points = {
         'nose.plugins.0.10': [
             "rich-errors = rhinoplasty.rich_errors.plugin:RichErrorReportingPlugin",
+            "load-zipfile = rhinoplasty.compressed_tests.plugin:CompressedTestLoaderPlugin",
         ],
     },
 )
