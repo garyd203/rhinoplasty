@@ -2,7 +2,7 @@ Use restructured text for the standalone and in-python documentation
 
 Set us up on readthedocs. Include the readthedocs URL as the project homepage
 
-Put repository online
+Put repository online (bitbucket)
 
 specify dependency on nose for PyPI (include version?)
 
