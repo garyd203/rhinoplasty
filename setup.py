@@ -19,7 +19,7 @@ def read(fname):
 def get_package_version():
     version_module = os.path.join(os.path.dirname(__file__), "rhinoplasty", "_version.py")
     for line in open(version_module):
-        match = re.search('''__version__ *= *['"]([0-9.]+)['"]''', line)
+        match = re.search('''__version__ *= *['"]([0-9.]+)(alpha)?['"]''', line)
         if match is not None:
             return match.group(1)
     raise Exception("Package version could not be found")
