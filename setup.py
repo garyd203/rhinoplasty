@@ -30,11 +30,11 @@ setup(
     name = "rhinoplasty",
     version = get_package_version(),
     author = "Gary Donovan",
-    author_email = "garyd@crucialfruit.com.au",
+    author_email = "gazza@gazza.id.au",
     url = "N/A", #FIXME get a URL
     license = "LGPL",
     keywords = "Nose test unittest",
-    description = ("Experimental extensions and helper functions for the Nose test runner."),
+    description = ("Extra tools for the Nose test runner."),
     long_description = read('README.txt'),
     classifiers = [
         "Development Status :: 4 - Beta",
