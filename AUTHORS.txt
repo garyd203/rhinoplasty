@@ -1,7 +1,7 @@
-This project has been supported by IRESS Market Technology
+This project has been supported by IRESS Limited
 (http://www.iress.com.au/).
 
 
 The following individuals have contributed to this project:
 
-Gary Donovan <garyd@crucialfruit.com.au>
+Gary Donovan <gazza@gazza.id.au>
