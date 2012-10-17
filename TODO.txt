@@ -1,3 +1,5 @@
+See FIXME and TODO notes scattered throughout the code.
+
 Use restructured text for the standalone and in-python documentation
 
 Set us up on readthedocs. Include the readthedocs URL as the project homepage
