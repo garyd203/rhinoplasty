@@ -1,3 +1,6 @@
+Version 0.6.3
+=============
+
 Version 0.6.2
 =============
 * Make rich errors work with the teamcity-messages plugin.
