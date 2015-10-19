@@ -1,5 +1,6 @@
 Version 0.6.2
 =============
+* Make rich errors work with the teamcity-messages plugin.
 * New plugin for handling zipped files.
 
 Version 0.6.1

@@ -51,6 +51,36 @@ class RichErrorReportingPlugin(ErrorClassPlugin):
                 logger.warn("Unable to monkey-patch xunit plugin, since it's " \
                             "SkipTest definition has an unexpected type: %s",
                             xunit.SkipTest)
+            
+            # Take the same approach for integrating with teamcity-messages
+            # (another test reporting plugin).
+            try:
+                import teamcity.nose_report
+            except ImportError:
+                logger.info(
+                    "teamcity-messages plugin is not present, so it won't "
+                    "be monkey-patched",
+                    exc_info=True
+                )
+            else:
+                if inspect.isclass(teamcity.nose_report.SkipTest):
+                    logger.info(
+                        "Monkey patching teamcity-messages plugin to "
+                        "recognise rich errors..."
+                    )
+                    new_skips = [teamcity.nose_report.SkipTest]
+                    for cls, (name, label, isfailure) in self.errorClasses:
+                        if not isfailure:
+                            new_skips.append(cls)
+                    
+                    teamcity.nose_report.SkipTest = tuple(new_skips)
+                else:
+                    logger.warn(
+                        "Unable to monkey-patch teamcity-messages plugin, "
+                        "since it's SkipTest definition has an unexpected "
+                        "type: %s",
+                        teamcity.nose_report.SkipTest
+                    )
     
     def help(self):
         return "Display richer error types."
