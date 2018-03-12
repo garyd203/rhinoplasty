@@ -74,7 +74,7 @@ class TestTimeBoxedDecorator(object):
     def test_exception_raised(self):
         """An exception raised by the target function should be passed through to the caller."""
         # Setup
-        class FrobnicationError(StandardError):
+        class FrobnicationError(Exception):
             pass
         
         @timeboxed(1)
