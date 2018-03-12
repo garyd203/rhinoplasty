@@ -9,7 +9,7 @@ __all__ = [
 ]
 
 
-class RichSkipTestException(StandardError):
+class RichSkipTestException(Exception):
     """Base class for all errors that cause the test to be skipped.
     
     Ideally, the base class would be unittest.SkipTest (or, even better,
@@ -69,7 +69,7 @@ class BrokenTestException(RichSkipTestException):
         self.reason = reason
     
     def __repr__(self):
-        return "%s(%s, '%s')" % (self.__class__.__name__, `self.item_number`, self.reason)
+        return "%s(%s, '%s')" % (self.__class__.__name__, repr(self.item_number), self.reason)
     
     def __str__(self):
         return "Broken Test: %s (defect #%s)" % (self.reason, self.item_number)
