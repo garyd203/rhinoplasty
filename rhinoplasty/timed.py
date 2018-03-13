@@ -129,13 +129,13 @@ class _TimeoutFunctionThread(Thread):
         # Callers are supposed to wait for the function to complete before
         # getting the result.
         if not self.finished.is_set():
-            raise StandardError("Target function has not finished executing yet")
+            raise Exception("Target function has not finished executing yet")
         
         # Raise an exception or return the result, as relevant
         if self.__exc_info is None:
             return self.__result
         
-        raise self.__exc_info[1], None, self.__exc_info[2]
+        raise self.__exc_info[1].with_traceback(self.__exc_info[2])
     
     def run(self):
         self.finished.clear()

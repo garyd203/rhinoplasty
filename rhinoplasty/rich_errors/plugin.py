@@ -1,7 +1,7 @@
 """Nose plugin for displaying results from rich errors."""
 
 from nose.plugins.errorclass import ErrorClass, ErrorClassPlugin
-from _errors import *
+from ._errors import *
 import inspect
 import logging
 

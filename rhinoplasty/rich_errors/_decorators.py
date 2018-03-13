@@ -8,8 +8,8 @@ __all__ = [
 ]
 
 
-from _errors import BrokenTestException
-from _errors import IrrelevantTestException
+from ._errors import BrokenTestException
+from ._errors import IrrelevantTestException
 from nose.tools import nottest
 from rhinoplasty.wrapper import wrap_test_function
 from rhinoplasty.wrapper import wrap_fixture_with_exception
@@ -43,7 +43,7 @@ def broken_inherited_tests(item_number, reason, *functions):
         if not inspect.isclass(TestClass):
             raise TypeError("@failing_virtual_tests must be applied to a class")
         
-        if isinstance(item_number, basestring) and \
+        if isinstance(item_number, str) and \
                 hasattr(TestClass, item_number):
             raise ValueError("Defect item number appears to actually be a method: %s" % item_number)
         
@@ -86,7 +86,7 @@ def irrelevant_test(condition, description):
     @param description: Describes why the test is irrelevant.
     @see IrrelevantTestException for further information on usage.
     """
-    assert (isinstance(description, basestring)), "Description is not a string - check that the parameters are correct"
+    assert (isinstance(description, str)), "Description is not a string - check that the parameters are correct"
     
     if condition:
         # Skip the test fixture
@@ -116,7 +116,7 @@ def unimplemented_subject_under_test(arg):
     arg_is_fixture = True
     description = "Subject Under Test is not yet implemented"
     
-    if isinstance(arg, basestring):
+    if isinstance(arg, str):
         description = arg
         arg_is_fixture = False
     

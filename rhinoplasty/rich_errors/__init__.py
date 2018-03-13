@@ -7,7 +7,7 @@ This package includes:
  * Nose Plugin for handling the errors (automatically installed by setup tools).
 """
 
-from _decorators import *
-from _errors import *
+from ._decorators import *
+from ._errors import *
 
 #TODO tests (?)
