@@ -1,6 +1,6 @@
 """Integration tests for the rhinoplasty.rich_errors.plugin module."""
 
-from io import StringIO
+from six import StringIO
 from nose.config import Config
 from nose.core import TestProgram
 from nose.plugins.manager import PluginManager

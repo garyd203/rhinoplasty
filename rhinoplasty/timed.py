@@ -4,6 +4,7 @@ from nose.tools import TimeExpired
 from threading import Event
 from threading import Thread
 from .wrapper import wrap_test_function
+import six
 import sys
 
 
@@ -134,9 +135,9 @@ class _TimeoutFunctionThread(Thread):
         # Raise an exception or return the result, as relevant
         if self.__exc_info is None:
             return self.__result
-        
-        raise self.__exc_info[1].with_traceback(self.__exc_info[2])
-    
+
+        six.reraise(*self.__exc_info)
+
     def run(self):
         self.finished.clear()
         
