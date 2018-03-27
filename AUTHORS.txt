@@ -5,3 +5,4 @@ This project has been supported by IRESS Limited
 The following individuals have contributed to this project:
 
 Gary Donovan <gazza@gazza.id.au>
+Tim Gates <tgates@iress.com.au>
