@@ -29,9 +29,9 @@ def get_package_version():
 setup(
     name = "rhinoplasty",
     version = get_package_version(),
-    author = "Gary Donovan",
+    author = "Gary Donovan and contributors",
     author_email = "gazza@gazza.id.au",
-    url = "N/A", #FIXME get a URL
+    url = "https://pypi.python.org/pypi/rhinoplasty/",
     license = "LGPL",
     keywords = "Nose test unittest",
     description = ("Extra tools for the Nose test runner."),
@@ -44,8 +44,10 @@ setup(
         "Natural Language :: English",
         "Operating System :: OS Independent",
         "Programming Language :: Python :: 2",
+        "Programming Language :: Python :: 3",
         "Topic :: Software Development :: Testing",
     ],
+    install_requires = ['nose', 'six'],
     packages = find_packages("."),
     entry_points = {
         'nose.plugins.0.10': [
