@@ -1,6 +1,6 @@
 """Experimental extensions and helper functions for the Nose test runner.
 
-Copyright 2011 IRESS Market Technology Limited.
+Copyright 2012 IRESS Limited.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
