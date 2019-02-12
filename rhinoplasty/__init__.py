@@ -25,4 +25,4 @@ import re
 from ._version import __version__
 
 # Version tuple
-version_info = tuple(map(int, re.match("(\d+)\.(\d+)\.(\d+)", __version__).groups()))
+version_info = tuple(int(elem) for elem in re.match("(\\d+)\\.(\\d+)\\.(\\d+)", __version__).groups())
