@@ -1,8 +1,7 @@
 /.idea
 /build
 /dist
-/venv2
-/venv3
+/venv*/
 *.pyc
 *.pyo
 *.egg-info
