@@ -1,5 +1,6 @@
 Version 0.7.1
 =============
+* Minor bug with version variable
 
 Version 0.7.0
 =============
