@@ -5,7 +5,10 @@ These are often helpful when implementing decorators.
 
 from nose.tools import make_decorator
 import inspect
-import collections
+try:
+    import collections.abc as collections_abc
+except ImportError:
+    import collections as collections_abc
 
 
 def wrap_test_function(original):
@@ -16,7 +19,7 @@ def wrap_test_function(original):
     
     @param original: The original function that is being wrapped.
     """
-    if not isinstance(original, collections.Callable):
+    if not isinstance(original, collections_abc.Callable):
         raise ValueError("Original function is not actually a function.")
     
     # Just use the standard Nose function wrapper
@@ -61,7 +64,7 @@ def wrap_test_class(original):
             value = getattr(original, name)
             
             # Do not copy methods (obviously).
-            if isinstance(value, collections.Callable):
+            if isinstance(value, collections_abc.Callable):
                 continue
             
             # Don't replace existing attributes
@@ -85,7 +88,7 @@ def wrap_test_fixture(original):
     """
     if inspect.isclass(original):
         return wrap_test_class(original)
-    elif isinstance(original, collections.Callable):
+    elif isinstance(original, collections_abc.Callable):
         return wrap_test_function(original)
     else:
         raise ValueError("Decorated object type is not recognised")
@@ -108,7 +111,7 @@ def wrap_fixture_with_exception(ex):
             
             return ClassWrapper
         
-        elif isinstance(fixture, collections.Callable):
+        elif isinstance(fixture, collections_abc.Callable):
             # Create a replacement function that raises an appropriate exception
             @wrap_test_function(fixture)
             def test_function_wrapper(*args):
